@@ -2,6 +2,7 @@
 
 ## 题目
 1. 使用socket实现一个web简单服务器，监听80或8080端口，接收从浏览器发送的请求并将请求打印出来，然后回复下面一段html文字，显示在浏览器中。
+```
 <html>
 <head>
 <meta charset="utf-8">
@@ -12,6 +13,7 @@
 <p>软件体系架构实验(1), WEB服务器实现</p >
 </body>
 </html>
+```
 
 2.  实现一个消息中间件服务器及客户端，服务器监听端口，最少3个客户端连接到服务器，任何一个客户端发送消息，服务器都转发到其他两个。
 服务器需要记录客户端连接上来的socket，保证数据能正常转发。
@@ -28,6 +30,7 @@
 1. html
 2. cpp.exe
 3. post自己请求
+```
 curl --location --request POST 'localhost:8081/user' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -36,3 +39,4 @@ curl --location --request POST 'localhost:8081/user' \
         "password": "123456",
         "role": "admin"
     }}'
+```
