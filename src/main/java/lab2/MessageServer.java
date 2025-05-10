@@ -6,6 +6,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MessageServer {
     private static final int PORT = 8080;
+
+    // 使用 CopyOnWriteArrayList 管理所有连接的客户端
     private static final CopyOnWriteArrayList<ClientHandler> clients = new CopyOnWriteArrayList<>();
 
     public static void main(String[] args) {
@@ -16,6 +18,8 @@ public class MessageServer {
                 Socket clientSocket = serverSocket.accept();
                 ClientHandler clientHandler = new ClientHandler(clientSocket);
                 clients.add(clientHandler);
+
+                // 为每个客户端创建独立的处理线程
                 new Thread(clientHandler).start();
                 System.out.println("New client connected. Total clients: " + clients.size());
             }
@@ -32,6 +36,7 @@ public class MessageServer {
 
         public ClientHandler(Socket socket) {
             this.socket = socket;
+            // 每个客户端都有唯一标识（Client-1, Client-2 等）
             this.clientId = "Client-" + (clients.size() + 1);
         }
 
@@ -66,6 +71,7 @@ public class MessageServer {
         }
     }
 
+    // 消息广播给所有客户端
     private static void broadcastMessage(String message, ClientHandler sender) {
         for (ClientHandler client : clients) {
             if (client != sender) {

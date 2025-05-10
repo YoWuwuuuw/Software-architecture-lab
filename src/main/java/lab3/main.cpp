@@ -12,6 +12,25 @@ int main()
 
     httplib::Server svr; // 创建RESTful服务器对象
 
+    // 添加CORS支持
+    svr.set_default_headers({
+        {"Access-Control-Allow-Origin", "*"},
+        {"Access-Control-Allow-Methods", "GET, POST, OPTIONS"},
+        {"Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With"},
+        {"Access-Control-Max-Age", "3600"},
+        {"Access-Control-Allow-Credentials", "true"}
+    });
+
+    // 处理OPTIONS请求
+    svr.Options(".*", [](const httplib::Request &, httplib::Response &res) {
+        res.set_header("Access-Control-Allow-Origin", "*");
+        res.set_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        res.set_header("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+        res.set_header("Access-Control-Max-Age", "3600");
+        res.set_header("Access-Control-Allow-Credentials", "true");
+        res.status = 204; // No Content
+    });
+
     // 定义/hello接口，支持GET请求，带参数name
     svr.Get("/hello", [](const httplib::Request &req, httplib::Response &res)
             {
@@ -57,6 +76,11 @@ int main()
             res.set_content(response_json.dump(), "application/json; charset=utf-8");
         } catch (const std::exception& e) {
             res.status = 400; // 设置HTTP错误状态码为400
+            json error_json = {
+                {"status", "error"},
+                {"message", "无效的JSON数据"}
+            };
+            res.set_content(error_json.dump(), "application/json; charset=utf-8");
         } });
 
     std::cout << "监听8081端口..." << std::endl;

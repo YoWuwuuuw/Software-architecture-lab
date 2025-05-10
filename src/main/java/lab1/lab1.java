@@ -8,8 +8,8 @@ import java.nio.charset.StandardCharsets;
 public class lab1 {
 
     public static void main(String[] args) {
-        int port = 8080; // 监听8080端口
-        try (ServerSocket serverSocket = new ServerSocket(port)) {
+        int port = 8011; // 监听8080端口
+        try (ServerSocket serverSocket = new ServerSocket(port)) { // 使用 ServerSocket 监听客户端连接
             System.out.println("Server is listening on port " + port);
 
             while (true) {
@@ -41,7 +41,7 @@ public class lab1 {
                 "<title>软件体系架构实验</title>\n" +
                 "</head>\n" +
                 "<body>\n" +
-                "<h1>软件体系架构实验(1)</h1>\n" +
+                "<h1>软件体系架构(1)</h1>\n" +
                 "<p>软件体系架构实验(1), WEB服务器实现</p>\n" +
                 "</body>\n" +
                 "</html>";
